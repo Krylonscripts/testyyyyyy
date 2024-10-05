@@ -1,0 +1,60 @@
+local aux = {}
+
+-- Attempt to get various exploit functions; fallback to nil if unavailable
+local getGc = getgc or function() error("getgc not available") end
+local getInfo = debug.getinfo or getinfo or function() error("debug.getinfo/getinfo not available") end
+local getUpvalue = debug.getupvalue or getupvalue or getupval or function() error("debug.getupvalue/getupvalue/getupval not available") end
+local getConstants = debug.getconstants or getconstants or getconsts or function() error("debug.getconstants/getconstants/getconsts not available") end
+local isXClosure = is_synapse_function or issentinelclosure or is_protosmasher_closure or is_sirhurt_closure or istempleclosure or checkclosure or function() return false end
+local isLClosure = islclosure or is_l_closure or (iscclosure and function(f) return not iscclosure(f) end) or function() return false end
+
+-- Assert that essential functions exist, otherwise, print out which function is missing
+if not (getGc and getInfo and getConstants and isXClosure) then
+    error("Your exploit is missing required functions: getGc, getInfo, getConstants, or XClosure check.")
+end
+
+local placeholderUserdataConstant = newproxy(false)
+
+local function matchConstants(closure, list)
+    if not list then
+        return true
+    end
+    
+    local constants = getConstants(closure)
+    
+    for index, value in pairs(list) do
+        if constants[index] ~= value and value ~= placeholderUserdataConstant then
+            return false
+        end
+    end
+    
+    return true
+end
+
+local function searchClosure(script, name, upvalueIndex, constants)
+    for _i, v in pairs(getGc()) do
+        -- Ensure that 'v' is a function before proceeding
+        if type(v) == "function" then
+            local parentScript = rawget(getfenv(v), "script")
+
+            if isLClosure(v) and 
+                not isXClosure(v) and 
+                (
+                    (script == nil and parentScript and parentScript.Parent == nil) or script == parentScript
+                ) 
+                and pcall(getUpvalue, v, upvalueIndex)
+            then
+                if ((name and name ~= "Unnamed function") and getInfo(v).name == name) and matchConstants(v, constants) then
+                    return v
+                elseif (not name or name == "Unnamed function") and matchConstants(v, constants) then
+                    return v
+                end
+            end
+        end
+    end
+end
+
+aux.placeholderUserdataConstant = placeholderUserdataConstant
+aux.searchClosure = searchClosure
+
+return aux

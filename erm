@@ -1,0 +1,115 @@
+local Library = {}
+
+-- Function to create a screen GUI
+function Library:CreateScreenGui()
+    local Options = Instance.new("ScreenGui")
+    Options.Name = "Options"
+    Options.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    Options.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    return Options
+end
+
+-- Function to create the main frame (black box)
+function Library:CreateMainFrame(parent, position, size)
+    local Frame = Instance.new("Frame")
+    Frame.Parent = parent
+    Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Frame.BorderSizePixel = 0
+    Frame.Position = position or UDim2.new(0.5, -150, 0.5, -100)
+    Frame.Size = size or UDim2.new(0, 400, 0, 250)
+    
+    local UICorner = Instance.new("UICorner")
+    UICorner.CornerRadius = UDim.new(0, 10)
+    UICorner.Parent = Frame
+
+    return Frame
+end
+
+-- Function to create a search bar
+function Library:CreateSearchBar(parent, position, size)
+    local SearchBar = Instance.new("TextBox")
+    SearchBar.Parent = parent
+    SearchBar.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    SearchBar.BorderSizePixel = 0
+    SearchBar.Position = position or UDim2.new(0, 10, 0, 10)
+    SearchBar.Size = size or UDim2.new(0, 380, 0, 30)
+    SearchBar.Font = Enum.Font.SourceSans
+    SearchBar.Text = "Search options.."
+    SearchBar.TextColor3 = Color3.fromRGB(200, 200, 200)
+    SearchBar.TextSize = 18
+    SearchBar.TextXAlignment = Enum.TextXAlignment.Left
+
+    local UICorner = Instance.new("UICorner")
+    UICorner.CornerRadius = UDim.new(0, 5)
+    UICorner.Parent = SearchBar
+
+    return SearchBar
+end
+
+-- Function to create an item button with text and icon
+function Library:CreateItemButton(parent, text, subtext, iconAssetId)
+    local ButtonFrame = Instance.new("Frame")
+    ButtonFrame.Parent = parent
+    ButtonFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    ButtonFrame.BorderSizePixel = 0
+    ButtonFrame.Size = UDim2.new(1, -20, 0, 50)
+
+    local TextLabel = Instance.new("TextLabel")
+    TextLabel.Parent = ButtonFrame
+    TextLabel.BackgroundTransparency = 1
+    TextLabel.Position = UDim2.new(0, 10, 0, 5)
+    TextLabel.Size = UDim2.new(0, 250, 0, 20)
+    TextLabel.Font = Enum.Font.SourceSansBold
+    TextLabel.Text = text or "Button Text"
+    TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TextLabel.TextSize = 16
+    TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+    local SubTextLabel = Instance.new("TextLabel")
+    SubTextLabel.Parent = ButtonFrame
+    SubTextLabel.BackgroundTransparency = 1
+    SubTextLabel.Position = UDim2.new(0, 10, 0, 25)
+    SubTextLabel.Size = UDim2.new(0, 250, 0, 20)
+    SubTextLabel.Font = Enum.Font.SourceSans
+    SubTextLabel.Text = subtext or "Subtext"
+    SubTextLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
+    SubTextLabel.TextSize = 14
+    SubTextLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+    local Icon = Instance.new("ImageLabel")
+    Icon.Parent = ButtonFrame
+    Icon.BackgroundTransparency = 1
+    Icon.Position = UDim2.new(1, -40, 0.2, 0)
+    Icon.Size = UDim2.new(0, 24, 0, 24)
+    Icon.Image = iconAssetId or "rbxassetid://your_default_icon"
+
+    return ButtonFrame
+end
+
+-- Function to create a toggle switch
+function Library:CreateToggle(parent, position, size)
+    local ToggleFrame = Instance.new("Frame")
+    ToggleFrame.Parent = parent
+    ToggleFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    ToggleFrame.Position = position
+    ToggleFrame.Size = size
+
+    local Toggle = Instance.new("Frame")
+    Toggle.Parent = ToggleFrame
+    Toggle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Toggle.Size = UDim2.new(0, 40, 0, 22)
+
+    local UICorner = Instance.new("UICorner")
+    UICorner.CornerRadius = UDim.new(1, 0)
+    UICorner.Parent = Toggle
+
+    local Circle = Instance.new("ImageLabel")
+    Circle.Parent = Toggle
+    Circle.Size = UDim2.new(0, 19, 0, 19)
+    Circle.Position = UDim2.new(0, 1, 0.04, 0)
+    Circle.Image = "rbxassetid://6755657357"
+    
+    return ToggleFrame
+end
+
+return Library

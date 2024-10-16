@@ -1,0 +1,78 @@
+local Library = {}
+
+-- Function to create a screen GUI
+function Library:CreateScreenGui()
+    local Options = Instance.new("ScreenGui")
+    Options.Name = "Options"
+    Options.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    Options.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    return Options
+end
+
+-- Function to create a frame
+function Library:CreateFrame(parent, position, size, bgColor)
+    local Frame = Instance.new("Frame")
+    Frame.Parent = parent
+    Frame.BackgroundColor3 = bgColor or Color3.fromRGB(5, 5, 5)
+    Frame.BorderSizePixel = 0
+    Frame.Position = position
+    Frame.Size = size
+    return Frame
+end
+
+-- Function to create a text label
+function Library:CreateTextLabel(parent, text, position, size, textColor)
+    local TextLabel = Instance.new("TextLabel")
+    TextLabel.Parent = parent
+    TextLabel.BackgroundTransparency = 1
+    TextLabel.Position = position
+    TextLabel.Size = size
+    TextLabel.Font = Enum.Font.SourceSansBold
+    TextLabel.Text = text
+    TextLabel.TextColor3 = textColor or Color3.fromRGB(150, 150, 150)
+    TextLabel.TextSize = 14
+    TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+    return TextLabel
+end
+
+-- Function to create an image label
+function Library:CreateImageLabel(parent, assetId, position, size, imageColor)
+    local ImageLabel = Instance.new("ImageLabel")
+    ImageLabel.Parent = parent
+    ImageLabel.BackgroundTransparency = 1
+    ImageLabel.Position = position
+    ImageLabel.Size = size
+    ImageLabel.Image = assetId
+    ImageLabel.ImageColor3 = imageColor or Color3.fromRGB(150, 150, 150)
+    return ImageLabel
+end
+
+-- Function to create a toggle switch
+function Library:CreateToggle(parent, position, size)
+    local ToggleFrame = Instance.new("Frame")
+    ToggleFrame.Parent = parent
+    ToggleFrame.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
+    ToggleFrame.Position = position
+    ToggleFrame.Size = size
+
+    local Toggle_2 = Instance.new("Frame")
+    Toggle_2.Parent = ToggleFrame
+    Toggle_2.BackgroundColor3 = Color3.fromRGB(230, 230, 230)
+    Toggle_2.Size = UDim2.new(0, 40, 0, 22)
+
+    local UICorner = Instance.new("UICorner")
+    UICorner.CornerRadius = UDim.new(1, 0)
+    UICorner.Parent = Toggle_2
+
+    local Circle = Instance.new("ImageLabel")
+    Circle.Parent = Toggle_2
+    Circle.Size = UDim2.new(0, 19, 0, 19)
+    Circle.Position = UDim2.new(0, 1, 0.04, 0)
+    Circle.Image = "rbxassetid://6755657357"
+    
+    return ToggleFrame
+end
+
+-- Add more functions for buttons, sliders, search boxes, etc. as needed
+
+return Library
